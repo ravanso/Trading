@@ -7,31 +7,47 @@ Document the technical architecture, system design, and implementation approach 
 
 ## System Overview
 
+### Project Focus: AI-Powered Options Trading Agent
+This system uses machine learning (Reinforcement Learning) to train an intelligent agent that trades options strategies.
+
 ### High-Level Architecture
 ```
-[Data Sources] -> [Data Pipeline] -> [Storage] -> [Strategy Engine] -> [Execution] -> [Monitoring]
+[Options Data Sources] -> [Data Pipeline] -> [Storage] -> [AI Agent] -> [Execution] -> [Monitoring]
+                                                             ^              |
+                                                             |              v
+                                                         [Training] <- [Backtesting]
 ```
 
-### Components
-1. **Data Pipeline** - Collect, clean, and store market data
-2. **Strategy Engine** - Implement and run trading strategies
-3. **Backtesting Framework** - Test strategies on historical data
-4. **Execution System** - Send orders to broker
-5. **Risk Management** - Monitor and enforce risk limits
-6. **Monitoring & Logging** - Track system health and performance
-7. **Dashboard** - Visualize performance and positions
+### Core Components
+1. **Options Data Pipeline** - Collect options chains, Greeks, IV, historical data
+2. **AI Training Environment** - Reinforcement learning environment for agent training
+3. **Trading Agent** - ML model that learns to trade options strategies
+4. **Backtesting Framework** - Test agent on historical options data
+5. **Execution System** - Send options orders to broker
+6. **Risk Management** - Monitor Greeks exposure, position limits, P&L
+7. **Monitoring & Logging** - Track agent performance, trades, system health
+8. **Dashboard** - Visualize agent decisions, Greeks, positions, performance
+
+### AI Agent Components
+1. **State Representation** - Encode market data, positions, Greeks into agent's observation space
+2. **Policy Network** - Neural network that decides which actions to take
+3. **Reward Function** - Calculate reward signal for agent learning
+4. **Experience Replay** - Store and replay past experiences for learning
+5. **Training Loop** - Iteratively improve agent through interaction with environment
 
 ---
 
 ## Technology Stack
 
 ### Programming Language
-- [ ] Python
-- [ ] C++
-- [ ] Rust
-- [ ] Other:
+- [x] Python (Primary choice)
+- [ ] C++ (for performance-critical components if needed)
 
-**Rationale:**
+**Rationale:** 
+- Python has best ML/RL library ecosystem (TensorFlow, PyTorch, Stable-Baselines3)
+- Excellent options trading libraries (ib_insync, pandas, numpy)
+- Rapid prototyping and development
+- Large community and resources
 
 ### Key Libraries/Frameworks
 
@@ -41,11 +57,21 @@ Document the technical architecture, system design, and implementation approach 
 - polars (alternative to pandas)
 - scipy
 
+#### Reinforcement Learning
+- stable-baselines3 (RL algorithms: PPO, A2C, SAC, TD3)
+- gymnasium (formerly OpenAI Gym) - RL environment interface
+- PyTorch or TensorFlow (deep learning backend)
+- ray[rllib] (distributed RL, optional for scaling)
+
+#### Options Trading & Greeks
+- py_vollib (Black-Scholes, Greeks calculation)
+- mibian (options pricing)
+- QuantLib (advanced options analytics)
+
 #### Trading & Backtesting
-- backtrader
-- vectorbt
-- zipline
-- custom framework
+- backtrader (backtesting framework)
+- vectorbt (fast vectorized backtesting)
+- custom RL environment (for agent training)
 
 #### Visualization
 - matplotlib
@@ -297,25 +323,53 @@ Document the technical architecture, system design, and implementation approach 
 
 ## Development Roadmap
 
-### Phase 1: Foundation
-- [ ] Set up development environment
-- [ ] Implement data pipeline
-- [ ] Create database schema
+### Phase 1: Foundation (Weeks 1-2)
+- [ ] Set up Python development environment (Python 3.10+, virtual env)
+- [ ] Install ML libraries (stable-baselines3, gymnasium, PyTorch)
+- [ ] Install options libraries (ib_insync, py_vollib)
+- [ ] Set up data collection for options chains
+- [ ] Create database schema for options data
+- [ ] Implement basic Greeks calculations
 
-### Phase 2: Backtesting
-- [ ] Build backtesting framework
-- [ ] Implement sample strategy
-- [ ] Generate performance reports
+### Phase 2: RL Environment & Simple Strategies (Weeks 3-4)
+- [ ] Build custom Gymnasium environment for options trading
+- [ ] Implement state space (market data, Greeks, positions)
+- [ ] Implement action space (enter/exit/hold trades)
+- [ ] Design reward function (P&L, risk-adjusted returns)
+- [ ] Test environment with random agent
+- [ ] Implement one simple rule-based strategy as baseline
 
-### Phase 3: Paper Trading
-- [ ] Connect to broker API
-- [ ] Implement paper trading mode
-- [ ] Build monitoring dashboard
+### Phase 3: Agent Training (Weeks 5-8)
+- [ ] Collect historical options data for training
+- [ ] Train first RL agent (start with PPO)
+- [ ] Implement experience replay and episode management
+- [ ] Tune hyperparameters (learning rate, network architecture)
+- [ ] Compare agent performance vs baseline strategy
+- [ ] Iterate on reward function and state representation
 
-### Phase 4: Live Trading
-- [ ] Deploy to production environment
-- [ ] Start with small capital
-- [ ] Monitor and iterate
+### Phase 4: Backtesting & Validation (Weeks 9-10)
+- [ ] Build comprehensive backtesting framework
+- [ ] Test agent on out-of-sample data
+- [ ] Walk-forward analysis
+- [ ] Analyze agent decision patterns
+- [ ] Stress test under different market conditions
+- [ ] Generate performance reports (Sharpe, drawdown, win rate)
+
+### Phase 5: Paper Trading (Weeks 11-12)
+- [ ] Connect to broker API (IBKR or Tradier)
+- [ ] Implement paper trading mode with live data
+- [ ] Deploy agent to paper trading
+- [ ] Build real-time monitoring dashboard
+- [ ] Track agent vs backtest performance
+- [ ] Refine and retrain as needed
+
+### Phase 6: Live Trading (Week 13+)
+- [ ] Final validation and testing
+- [ ] Deploy to production environment (VPS or cloud)
+- [ ] Start with very small capital (1-5% of total)
+- [ ] Monitor closely for first 2-4 weeks
+- [ ] Gradually increase capital allocation
+- [ ] Continuous monitoring and retraining
 
 ---
 

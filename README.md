@@ -12,10 +12,16 @@ Currently in brainstorming and planning phase.
 - Rayan
 - Guillaume
 
+## Project Focus
+**Options Trading with AI-Powered Agent**
+
+We are building an intelligent trading system that uses reinforcement learning to trade options strategies. The AI agent will learn to identify profitable opportunities, manage risk, and adapt to changing market conditions.
+
 ## Documentation
 - [BRAINSTORMING.md](BRAINSTORMING.md) - General ideas and concepts
-- [STRATEGIES.md](STRATEGIES.md) - Trading strategies and approaches
-- [DATA_SOURCES.md](DATA_SOURCES.md) - Data sources and APIs
+- [AI_AGENT.md](AI_AGENT.md) - Reinforcement learning approach and agent design
+- [STRATEGIES.md](STRATEGIES.md) - Options trading strategies for the agent
+- [DATA_SOURCES.md](DATA_SOURCES.md) - Options data sources and APIs
 - [RISK_MANAGEMENT.md](RISK_MANAGEMENT.md) - Risk management and position sizing
 - [ARCHITECTURE.md](ARCHITECTURE.md) - Technical architecture and implementation plans
 
